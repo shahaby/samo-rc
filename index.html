@@ -1,22 +1,58 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="UTF-8">
     <title>SaMo Rent Control Catalog | Home</title>
-    <meta name="description" content="A Catalog of Shows Set in Los Angeles" />
+    <meta name="description" content="A Catalog of Rent Control Units in the City of Santa Monica" />
     <link rel="stylesheet" href="style.css" />
     <script type="text/javascript" src="scripts.js"></script>
   </head>
-
   <body>
     <header class="main-header">
-      <h1 class="title">Santa Monica<br>Rent Control</h1>
+      <h3 class="title">Santa Monica Rent Control Database</h3>
     </header>
+    <div class="filter-controls">
+      <input type="text" id="search-query" oninput="filterCards();" placeholder="Search" value=""/>
+      <button onclick="resetCards();">Reset</button>
+      <button onclick="shuffleCards();">I'm Feeling Lucky!</button>
+      <div class="input-container">
+        <span class="input-icon">Beds: </span>
+        <button id="toggle0" class="off" onclick="toggleBeds(0);">0</button>
+        <button id="toggle1" class="off" onclick="toggleBeds(1);">1</button>
+        <button id="toggle2" class="off" onclick="toggleBeds(2);">2</button>
+        <button id="toggle3" class="off" onclick="toggleBeds(3);">3</button>
+        <button id="toggle4" class="off" onclick="toggleBeds(4);">4+</button>
+      </div>
+      <div class="input-container">
+        <span class="input-icon">Rent: $</span>
+        <input style="width:60px;" type="text" id="min-price" oninput="filterCards();" placeholder="0.00" />
+        <span class="input-icon"> - $</span>
+        <input style="width:60px;" type="text" id="max-price" oninput="filterCards();" placeholder="99999.99"/>
+      </div>
+      <!-- <label for="sort-cards">Sort by:</label> -->
+      <select id="sort-cards" onchange="filterCards();">
+          <option value="default">Sort by:</option>
+          <option value="price-asc">Price (Low to High)</option>
+          <option value="price-desc">Price (High to Low)</option>
+          <option value="beds-asc">Beds (Low to High)</option>
+          <option value="beds-desc">Beds (High to Low)</option>
+          <option value="date-asc">Date (Low to High)</option>
+          <option value="date-desc">Date (High to Low)</option>
+      </select>
+      <div class="input-container">
+        <button id="saved-units" onclick="toggleSaved();">★ Saved</button>
+      </div>
+    </div>
     <div id="card-container"></div>
     <div class="card" style="display: none">
       <div class="card-content">
-        <b>Address</b>
-        <i>MAR</i>
-        <img src="" alt="TV Show Poster" />
+        <h2>Address</h2>
+        <div class="image-container">
+          <img src="" alt="Unit Streetview Image" />
+          <a href="https://www.google.com/maps" class="map-link" target="_blank">📍Map</a>
+          <!-- ★ ♥︎ -->
+          <span class="fave-icon" onclick="this.classList.toggle('selected');">★</span>
+        </div>
         <ul>
           <li>Bullet Point 1</li>
           <li>Bullet Point 2</li>
@@ -24,13 +60,27 @@
         </ul>
       </div>
     </div>
-    <div id="pagination-controls">
-      <button id="prev-page" disabled>Previous</button>
-      <button id="next-page">Next</button>
+    <div class="pagination-controls">
+      <div class="input-container">
+        <span id="units-count"></span>&nbsp;unit(s)
+
+        <button id="prev-page" disabled onclick="prevPage();"><< Previous</button>
+        <div id="page-numbers"></div>
+        <button id="next-page" onclick="nextPage();">Next >></button>
+        <lable for="units-per-page">Units/Page: </lable>
+        <select id="units-per-page" onchange="showCards(currentPage);">
+          <option value="5">5</option>
+          <option value="10" selected="selected">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+      </div>
     </div>
     <div class="footer">
-      <button onclick="quoteAlert();">Get A Quote!</button>
-      <button onclick="shuffleCards();">I'm Feeling Lucky!</button>
+      <button onclick="disclaimerAlert();">Disclaimer</button>
     </div>
+    <!-- Load JS after DOM elements are rendered -->
+    <!-- <script type="text/javascript" src="scripts.js"></script> -->
   </body>
 </html>
